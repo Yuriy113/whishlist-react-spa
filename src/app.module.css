@@ -1,17 +1,8 @@
-.app {
+.outlet {
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 
-.buttonsGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.buttonContainer {
-    width: 200px;
+    box-sizing: border-box;
 }
