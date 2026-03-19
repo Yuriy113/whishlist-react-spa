@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 
 import authApi from "./api/auth";
 import CreateWishlist from "./pages/CreateWishlist";
@@ -9,6 +9,7 @@ import styles from "./app.module.css";
 
 const Layout = () => (
     <div className={styles.outlet}>
+        <Link to="/">Главная</Link>
         <Outlet />
     </div>
 );
@@ -18,12 +19,12 @@ const App = () => {
         authApi
             .me()
             .then((response) => {
-                console.log(response);
+                console.info(response);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 authApi.loginAsGuest().then((response) => {
-                    console.log(response);
+                    console.info(response);
                 });
             });
     }, []);

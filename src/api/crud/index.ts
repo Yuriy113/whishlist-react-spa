@@ -17,6 +17,13 @@ const createWishList = async (wishlist: WishList) => {
     return response.data;
 };
 
+const getAll = async () => {
+    const response = await axios.get(`${API_CONSTANTS.WISHES_API_PREFIX}`);
+
+    return response.data;
+};
+
 export const wishesApi = {
     createWishList,
+    getAll,
 };
