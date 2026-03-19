@@ -1,8 +1,17 @@
 import { useEffect } from "react";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import authApi from "./api/auth";
-import Button from "./components/ui/Button";
+import CreateWishlist from "./pages/CreateWishlist";
+import { MainPage } from "./pages/MainPage/MainPage";
+import MyWishlists from "./pages/MyWishlists";
 import styles from "./app.module.css";
+
+const Layout = () => (
+    <div className={styles.outlet}>
+        <Outlet />
+    </div>
+);
 
 const App = () => {
     useEffect(() => {
@@ -20,22 +29,15 @@ const App = () => {
     }, []);
 
     return (
-        <div className={styles.app}>
-            <h1>My wishlist</h1>
-
-            <div className={styles.buttonsGroup}>
-                <div className={styles.buttonContainer}>
-                    <Button type="link" href="/create">
-                        Создать вишлист
-                    </Button>
-                </div>
-                <div className={styles.buttonContainer}>
-                    <Button type="link" href="/my-wishlists">
-                        Мои вишлисты
-                    </Button>
-                </div>
-            </div>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<MainPage />} />
+                    <Route path="create" element={<CreateWishlist />} />
+                    <Route path="my-wishlists" element={<MyWishlists />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 };
 

@@ -1,4 +1,5 @@
 import cn from "clsx";
+import { Link } from "react-router-dom";
 
 import styles from "./button.module.css";
 
@@ -16,16 +17,16 @@ const Button = (props: ButtonProps) => {
         children,
         onClick,
         type = "button",
-        href,
+        href = "",
         isDisabled,
         className,
     } = props;
 
     if (type === "link") {
         return (
-            <a className={cn(styles.button, className)} href={href}>
+            <Link to={href} className={cn(styles.button, className)}>
                 {children}
-            </a>
+            </Link>
         );
     }
 
