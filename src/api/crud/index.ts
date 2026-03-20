@@ -9,7 +9,7 @@ const createWishList = async (wishlist: WishList) => {
         {
             wishlist: {
                 title: wishlist.title,
-                wishes: wishlist.wishes.map((wish) => wish.description),
+                wishes: wishlist.wishes,
             },
         },
     );

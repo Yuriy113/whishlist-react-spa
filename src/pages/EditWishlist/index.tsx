@@ -1,12 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import WishListsForm from "../../components/common/WishListsForm";
 import { useInput } from "../../hooks/useInput";
 import type { Wish } from "../../types";
 
-const CreateWishlist = () => {
+const EditWishlist = () => {
     const [wishes, setWishes] = useState<Wish[]>([]);
+    const { id: wishlistId } = useParams<{ id: string }>();
+
+    // if (!wishlistId) {
+    //     return <div>Wishlist not found</div>;
+    // }
+
+    useEffect(() => {
+        const fetchWishlist = async () => {
+            const data = await wishesApi.getAll();
+            console.log("data", data);
+            const wishlist = data.wishlists.find(
+                (wl: any) => wl.id === wishlistId,
+            );
+            console.log("wishlist", wishlist);
+            setWishes(wishlist?.wishes || []);
+        };
+        fetchWishlist();
+    }, [wishlistId]);
+
+    console.log("wishes", wishes);
 
     const handleAddButtonClick = () => {
         setWishes([
@@ -29,7 +50,8 @@ const CreateWishlist = () => {
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        wishesApi.createWishList({ title: nameValue, wishes });
+        // wishesApi.updateWishList(wishlistId, { title: nameValue, wishes });
+        console.log(wishlistId, nameValue, wishes);
     };
 
     return (
@@ -43,4 +65,4 @@ const CreateWishlist = () => {
     );
 };
 
-export default CreateWishlist;
+export default EditWishlist;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import type { WishList } from "../../types";
@@ -21,8 +22,7 @@ const MyWishlists = () => {
         <div>
             {wishlists.map((wl, i) => (
                 <div key={i}>
-                    <p>{wl.title}</p>
-                    <p></p>
+                    <Link to={`/edit-wishlist/${wl.id}`}>{wl.title}</Link>
                 </div>
             ))}
         </div>

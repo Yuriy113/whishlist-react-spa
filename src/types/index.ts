@@ -5,6 +5,7 @@ export interface Wish {
 }
 
 export interface WishList {
+    id?: number;
     title: string;
     wishes: Wish[];
 }
