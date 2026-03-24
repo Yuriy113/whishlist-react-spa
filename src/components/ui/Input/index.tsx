@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import styles from "./input.module.css";
 
 interface InputProps {
@@ -19,21 +17,14 @@ export const Input = (props: InputProps) => {
         onChange,
     } = props;
 
-    const [inputValue, setInputValue] = useState(value);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-        onChange?.(e);
-    };
-
     return (
         <input
             className={styles.input}
             type={type}
             name={name}
             placeholder={placeholder}
-            value={inputValue}
-            onChange={handleChange}
+            value={value}
+            onChange={onChange}
         />
     );
 };

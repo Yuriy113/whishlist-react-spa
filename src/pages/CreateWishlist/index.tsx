@@ -2,40 +2,38 @@ import { useState } from "react";
 
 import { wishesApi } from "../../api/crud";
 import WishListsForm from "../../components/common/WishListsForm";
-import { useInput } from "../../hooks/useInput";
 import type { Wish } from "../../types";
 
 const CreateWishlist = () => {
+    const [title, setTitle] = useState("");
     const [wishes, setWishes] = useState<Wish[]>([]);
 
     const handleAddButtonClick = () => {
-        setWishes([
-            ...wishes,
-            { id: wishes.length + 1, name: "", description: "" },
-        ]);
+        setWishes([...wishes, { name: "", description: "" }]);
     };
 
-    const handleItemDescriptionChange = (id: number, value: string) => {
+    const handleItemDescriptionChange = (index: number, value: string) => {
         setWishes((prev) =>
-            prev.map((wish) =>
-                wish.id === id ? { ...wish, description: value } : wish,
+            prev.map((wish, i) =>
+                i === index ? { ...wish, description: value } : wish,
             ),
         );
     };
 
-    const { value: nameValue, Input: NameInput } = useInput({
-        name: "wishlistName",
-    });
+    const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value);
+    };
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        wishesApi.createWishList({ title: nameValue, wishes });
+        wishesApi.createWishList({ title, wishes });
     };
 
     return (
         <WishListsForm
             handleSubmit={handleSubmit}
-            NameInput={NameInput}
+            title={title}
+            onChangeTitle={handleChangeTitle}
             handleAddButtonClick={handleAddButtonClick}
             wishes={wishes}
             handleItemDescriptionChange={handleItemDescriptionChange}

@@ -5,26 +5,32 @@ import styles from "./style.module.css";
 
 interface WishListsFormProps {
     handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
-    NameInput: React.ReactNode;
+    title: string;
+    onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleAddButtonClick: () => void;
     wishes: Wish[];
-    handleItemDescriptionChange: (id: number, value: string) => void;
+    handleItemDescriptionChange: (index: number, value: string) => void;
 }
 
 const WishListsForm = (props: WishListsFormProps) => {
     const {
         handleSubmit,
-        NameInput,
+        title,
+        onChangeTitle,
         handleAddButtonClick,
         wishes,
         handleItemDescriptionChange,
     } = props;
 
-    console.log(wishes);
-
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
-            {NameInput}
+            <Input
+                name="title"
+                type="text"
+                placeholder="Название"
+                value={title}
+                onChange={onChangeTitle}
+            />
 
             <div className={styles.container}>
                 <div className={styles.addBtnContainer}>
@@ -38,15 +44,15 @@ const WishListsForm = (props: WishListsFormProps) => {
                 Добавить элемент
             </div>
 
-            {wishes.map((item) => (
-                <div key={item.id}>
+            {wishes.map((item, index) => (
+                <div key={index}>
                     <Input
-                        name={`item-${item.id}`}
+                        name={`item-${index}`}
                         type="text"
                         placeholder="Описание"
                         value={item.description}
                         onChange={(e) =>
-                            handleItemDescriptionChange(item.id, e.target.value)
+                            handleItemDescriptionChange(index, e.target.value)
                         }
                     />
                 </div>

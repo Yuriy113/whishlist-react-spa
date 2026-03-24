@@ -9,14 +9,12 @@ const MyWishlists = () => {
 
     useEffect(() => {
         const fetchWishLists = async () => {
-            const data = await wishesApi.getAll();
+            const data = await wishesApi.getAll("titles");
             setWishLists(data.wishlists);
         };
 
         fetchWishLists();
     }, []);
-
-    console.log(wishlists);
 
     return (
         <div>
