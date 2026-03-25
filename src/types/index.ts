@@ -2,6 +2,7 @@ export interface Wish {
     id?: string;
     name: string;
     description: string;
+    toRemove?: boolean;
 }
 
 export interface WishList {

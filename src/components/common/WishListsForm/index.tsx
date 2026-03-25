@@ -1,3 +1,5 @@
+import cn from "clsx";
+
 import type { Wish } from "../../../types";
 import Button from "../../ui/Button";
 import { Input } from "../../ui/Input";
@@ -10,6 +12,7 @@ interface WishListsFormProps {
     handleAddButtonClick: () => void;
     wishes: Wish[];
     handleItemDescriptionChange: (index: number, value: string) => void;
+    onRemoveButtonClick?: (index: number) => void;
 }
 
 const WishListsForm = (props: WishListsFormProps) => {
@@ -20,6 +23,7 @@ const WishListsForm = (props: WishListsFormProps) => {
         handleAddButtonClick,
         wishes,
         handleItemDescriptionChange,
+        onRemoveButtonClick,
     } = props;
 
     return (
@@ -45,7 +49,12 @@ const WishListsForm = (props: WishListsFormProps) => {
             </div>
 
             {wishes.map((item, index) => (
-                <div key={index}>
+                <div
+                    className={cn(styles.singleWish, {
+                        [styles.toRemove]: item.toRemove,
+                    })}
+                    key={index}
+                >
                     <Input
                         name={`item-${index}`}
                         type="text"
@@ -55,6 +64,11 @@ const WishListsForm = (props: WishListsFormProps) => {
                             handleItemDescriptionChange(index, e.target.value)
                         }
                     />
+                    <div style={{ width: "90px" }}>
+                        <Button onClick={() => onRemoveButtonClick?.(index)}>
+                            Удалить
+                        </Button>
+                    </div>
                 </div>
             ))}
 

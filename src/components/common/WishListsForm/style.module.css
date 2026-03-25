@@ -29,3 +29,15 @@
     margin: 0 auto;
     width: 50%;
 }
+
+.singleWish {
+    display: flex;
+    gap: 10px;
+}
+
+.toRemove {
+    border: 1px solid red;
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}

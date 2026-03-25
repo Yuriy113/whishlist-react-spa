@@ -29,6 +29,14 @@ const EditWishlist = () => {
         setWishes([...wishes, { name: "", description: "" }]);
     };
 
+    const handleRemoveButtonClick = (index: number) => {
+        setWishes((prev) =>
+            prev.map((wish, i) =>
+                i === index ? { ...wish, toRemove: true } : wish,
+            ),
+        );
+    };
+
     const handleItemDescriptionChange = (index: number, value: string) => {
         setWishes((prev) =>
             prev.map((wish, i) =>
@@ -41,12 +49,15 @@ const EditWishlist = () => {
         setTitle(e.target.value);
     };
 
-    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        wishesApi.updateWishList(wishlistId || "", {
+        const response = await wishesApi.updateWishList(wishlistId || "", {
             title,
             wishes,
         });
+
+        setTitle(response.wishlist.title);
+        setWishes(response.wishlist.wishes);
     };
 
     if (!wishlistId) {
@@ -61,6 +72,7 @@ const EditWishlist = () => {
             handleAddButtonClick={handleAddButtonClick}
             wishes={wishes}
             handleItemDescriptionChange={handleItemDescriptionChange}
+            onRemoveButtonClick={handleRemoveButtonClick}
         />
     );
 };
