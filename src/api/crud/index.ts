@@ -28,6 +28,14 @@ const updateWishList = async (id: string, wishlist: WishList) => {
     return response.data;
 };
 
+const removeWishList = async (id: string) => {
+    const response = await axios.delete(
+        `${API_CONSTANTS.WISHES_API_PREFIX}/${id}`,
+    );
+
+    return response.data;
+};
+
 const getAll = async (mode?: "titles" | "full") => {
     const response = await axios.get(`${API_CONSTANTS.WISHES_API_PREFIX}`, {
         params: { mode },
@@ -49,4 +57,5 @@ export const wishesApi = {
     getOne,
     createWishList,
     updateWishList,
+    removeWishList,
 };

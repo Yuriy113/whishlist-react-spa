@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import WishListsForm from "../../components/common/WishListsForm";
 import type { Wish } from "../../types";
+import { ROUTES } from "../../utils/constants/routes";
 
 const EditWishlist = () => {
     const [title, setTitle] = useState("");
     const [wishes, setWishes] = useState<Wish[]>([]);
     const { id: wishlistId } = useParams<{ id: string }>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchWishlist = async () => {
@@ -60,6 +62,15 @@ const EditWishlist = () => {
         setWishes(response.wishlist.wishes);
     };
 
+    const handleRemoveWishList = async () => {
+        if (!wishlistId) {
+            return;
+        }
+
+        await wishesApi.removeWishList(wishlistId);
+        navigate(`${ROUTES.MY_WISHLISTS}`);
+    };
+
     if (!wishlistId) {
         return <div>Wishlist not found</div>;
     }
@@ -73,6 +84,7 @@ const EditWishlist = () => {
             wishes={wishes}
             handleItemDescriptionChange={handleItemDescriptionChange}
             onRemoveButtonClick={handleRemoveButtonClick}
+            onRemoveWishList={handleRemoveWishList}
         />
     );
 };

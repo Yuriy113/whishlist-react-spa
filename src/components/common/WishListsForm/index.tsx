@@ -13,6 +13,7 @@ interface WishListsFormProps {
     wishes: Wish[];
     handleItemDescriptionChange: (index: number, value: string) => void;
     onRemoveButtonClick?: (index: number) => void;
+    onRemoveWishList?: () => void;
 }
 
 const WishListsForm = (props: WishListsFormProps) => {
@@ -24,6 +25,7 @@ const WishListsForm = (props: WishListsFormProps) => {
         wishes,
         handleItemDescriptionChange,
         onRemoveButtonClick,
+        onRemoveWishList,
     } = props;
 
     return (
@@ -74,6 +76,11 @@ const WishListsForm = (props: WishListsFormProps) => {
 
             <div className={styles.saveBtnContainer}>
                 <Button type="submit">Сохранить</Button>
+                {onRemoveWishList && (
+                    <Button type="button" onClick={onRemoveWishList}>
+                        Удалить
+                    </Button>
+                )}
             </div>
         </form>
     );
