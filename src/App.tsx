@@ -1,20 +1,13 @@
 import { useEffect } from "react";
-import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import authApi from "./api/auth";
+import { Layout } from "./layouts/main";
 import CreateWishlist from "./pages/CreateWishlist";
 import EditWishlist from "./pages/EditWishlist";
 import { MainPage } from "./pages/MainPage/MainPage";
 import MyWishlists from "./pages/MyWishlists";
 import { ROUTES } from "./utils/constants/routes";
-import styles from "./app.module.css";
-
-const Layout = () => (
-    <div className={styles.outlet}>
-        <Link to="/">Главная</Link>
-        <Outlet />
-    </div>
-);
 
 const App = () => {
     useEffect(() => {
