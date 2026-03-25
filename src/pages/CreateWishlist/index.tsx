@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import WishListsForm from "../../components/common/WishListsForm";
 import type { Wish } from "../../types";
+import { ROUTES } from "../../utils/constants/routes";
 
 const CreateWishlist = () => {
     const [title, setTitle] = useState("");
     const [wishes, setWishes] = useState<Wish[]>([]);
+    const navigate = useNavigate();
 
     const handleAddButtonClick = () => {
         setWishes([...wishes, { name: "", description: "" }]);
@@ -20,13 +23,21 @@ const CreateWishlist = () => {
         );
     };
 
+    const handleRemoveButtonClick = (index: number) => {
+        setWishes((prev) => prev.filter((_wish, i) => i !== index));
+    };
+
     const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     };
 
-    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        wishesApi.createWishList({ title, wishes });
+        const response = await wishesApi.createWishList({ title, wishes });
+
+        navigate(
+            `${ROUTES.EDIT_WISHLIST.replace(":id", response.wishlist.id)}`,
+        );
     };
 
     return (
@@ -37,6 +48,7 @@ const CreateWishlist = () => {
             handleAddButtonClick={handleAddButtonClick}
             wishes={wishes}
             handleItemDescriptionChange={handleItemDescriptionChange}
+            onRemoveButtonClick={handleRemoveButtonClick}
         />
     );
 };

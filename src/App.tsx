@@ -6,6 +6,7 @@ import CreateWishlist from "./pages/CreateWishlist";
 import EditWishlist from "./pages/EditWishlist";
 import { MainPage } from "./pages/MainPage/MainPage";
 import MyWishlists from "./pages/MyWishlists";
+import { ROUTES } from "./utils/constants/routes";
 import styles from "./app.module.css";
 
 const Layout = () => (
@@ -35,10 +36,16 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<MainPage />} />
-                    <Route path="create" element={<CreateWishlist />} />
-                    <Route path="my-wishlists" element={<MyWishlists />} />
                     <Route
-                        path="edit-wishlist/:id"
+                        path={ROUTES.CREATE_WISHLIST}
+                        element={<CreateWishlist />}
+                    />
+                    <Route
+                        path={ROUTES.MY_WISHLISTS}
+                        element={<MyWishlists />}
+                    />
+                    <Route
+                        path={ROUTES.EDIT_WISHLIST}
                         element={<EditWishlist />}
                     />
                 </Route>
