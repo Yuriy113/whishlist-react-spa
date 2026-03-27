@@ -15,10 +15,10 @@ const CreateWishlist = () => {
         setWishes([...wishes, { name: "", description: "" }]);
     };
 
-    const handleItemDescriptionChange = (index: number, value: string) => {
+    const handleItemChange = (index: number, type: string, value: string) => {
         setWishes((prev) =>
             prev.map((wish, i) =>
-                i === index ? { ...wish, description: value } : wish,
+                i === index ? { ...wish, [type]: value } : wish,
             ),
         );
     };
@@ -47,7 +47,7 @@ const CreateWishlist = () => {
             onChangeTitle={handleChangeTitle}
             handleAddButtonClick={handleAddButtonClick}
             wishes={wishes}
-            handleItemDescriptionChange={handleItemDescriptionChange}
+            onItemChange={handleItemChange}
             onRemoveButtonClick={handleRemoveButtonClick}
         />
     );

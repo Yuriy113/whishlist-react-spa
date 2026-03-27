@@ -1,7 +1,8 @@
 export interface Wish {
     id?: string;
-    name: string;
-    description: string;
+    name?: string;
+    description?: string;
+    link?: string;
     toRemove?: boolean;
 }
 

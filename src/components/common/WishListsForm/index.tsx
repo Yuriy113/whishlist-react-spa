@@ -11,7 +11,7 @@ interface WishListsFormProps {
     onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleAddButtonClick: () => void;
     wishes: Wish[];
-    handleItemDescriptionChange: (index: number, value: string) => void;
+    onItemChange: (index: number, type: string, value: string) => void;
     onRemoveButtonClick?: (index: number) => void;
     onRemoveWishList?: () => void;
     onShareWishList?: () => void;
@@ -25,7 +25,7 @@ const WishListsForm = (props: WishListsFormProps) => {
         onChangeTitle,
         handleAddButtonClick,
         wishes,
-        handleItemDescriptionChange,
+        onItemChange,
         onRemoveButtonClick,
         onRemoveWishList,
         onShareWishList,
@@ -68,23 +68,57 @@ const WishListsForm = (props: WishListsFormProps) => {
                     key={index}
                 >
                     {canEdit ? (
-                        <Input
-                            name={`item-${index}`}
-                            placeholder="Описание"
-                            value={item.description}
-                            onChange={(e) =>
-                                handleItemDescriptionChange(
-                                    index,
-                                    e.target.value,
-                                )
-                            }
-                            isDisabled={!canEdit}
-                            variant="textarea"
-                            rows={3}
-                        />
+                        <>
+                            <Input
+                                name={`link-${index}`}
+                                placeholder="Название"
+                                value={item.name}
+                                onChange={(e) =>
+                                    onItemChange(index, "name", e.target.value)
+                                }
+                                isDisabled={!canEdit}
+                            />
+
+                            <Input
+                                name={`item-${index}`}
+                                placeholder="Описание"
+                                value={item.description}
+                                onChange={(e) =>
+                                    onItemChange(
+                                        index,
+                                        "description",
+                                        e.target.value,
+                                    )
+                                }
+                                isDisabled={!canEdit}
+                                variant="textarea"
+                                rows={3}
+                            />
+
+                            <Input
+                                name={`link-${index}`}
+                                placeholder="Ссылка"
+                                value={item.link}
+                                onChange={(e) =>
+                                    onItemChange(index, "link", e.target.value)
+                                }
+                                isDisabled={!canEdit}
+                            />
+                        </>
                     ) : (
                         <div className={styles.descriptionText}>
-                            {item.description}
+                            <div>Название: {item.name}</div>
+                            <div>Описание: {item.description}</div>
+                            <div>
+                                Ссылка:{" "}
+                                <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {item.link}
+                                </a>
+                            </div>
                         </div>
                     )}
                     {canEdit && (

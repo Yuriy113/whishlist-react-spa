@@ -4,10 +4,11 @@
     border: 1px solid #000;
     border-radius: 5px;
     padding: 0 10px;
-    font-size: 20px;
+    font-size: 16px;
     outline: none;
 }
 
 .textarea {
     height: 100px;
+    font-size: 14px;
 }

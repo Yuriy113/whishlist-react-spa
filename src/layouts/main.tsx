@@ -11,7 +11,7 @@ export const Layout = () => {
     return (
         <div className={styles.outlet}>
             {!isMainPage && (
-                <Button type="link" href="/" className={styles.homeButton}>
+                <Button className={styles.homeButton} type="link" href="/">
                     Главная
                 </Button>
             )}
