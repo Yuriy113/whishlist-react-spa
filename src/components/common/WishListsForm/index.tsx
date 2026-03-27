@@ -29,19 +29,22 @@ const WishListsForm = (props: WishListsFormProps) => {
         onRemoveButtonClick,
         onRemoveWishList,
         onShareWishList,
-        canEdit,
+        canEdit = true,
     } = props;
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
-            <Input
-                name="title"
-                type="text"
-                placeholder="Название"
-                value={title}
-                onChange={onChangeTitle}
-                isDisabled={!canEdit}
-            />
+            <label className={styles.titleLabel} htmlFor="title">
+                <span>Название вишлиста</span>
+                <Input
+                    name="title"
+                    type="text"
+                    placeholder="Название"
+                    value={title}
+                    onChange={onChangeTitle}
+                    isDisabled={!canEdit}
+                />
+            </label>
 
             {canEdit && (
                 <div className={styles.container}>
@@ -104,9 +107,11 @@ const WishListsForm = (props: WishListsFormProps) => {
                             Удалить
                         </Button>
                     )}
-                    <Button type="button" onClick={onShareWishList}>
-                        Поделиться
-                    </Button>
+                    {onShareWishList && (
+                        <Button type="button" onClick={onShareWishList}>
+                            Поделиться
+                        </Button>
+                    )}
                 </div>
             )}
         </form>
