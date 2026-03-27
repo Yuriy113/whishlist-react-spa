@@ -1,0 +1,13 @@
+.wishlistContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wishlistLink {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: semibold;
+    text-transform: uppercase;
+}

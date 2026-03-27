@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import type { WishList } from "../../types";
+import { ROUTES } from "../../utils/constants/routes";
+import styles from "./style.module.css";
 
 const MyWishlists = () => {
     const [wishlists, setWishLists] = useState<WishList[]>([]);
@@ -17,10 +19,15 @@ const MyWishlists = () => {
     }, []);
 
     return (
-        <div>
+        <div className={styles.wishlistContainer}>
             {wishlists.map((wl, i) => (
                 <div key={i}>
-                    <Link to={`/edit-wishlist/${wl.id}`}>{wl.title}</Link>
+                    <Link
+                        className={styles.wishlistLink}
+                        to={`${ROUTES.EDIT_WISHLIST.replace(":id", wl.id?.toString() || "")}`}
+                    >
+                        {wl.title}
+                    </Link>
                 </div>
             ))}
         </div>

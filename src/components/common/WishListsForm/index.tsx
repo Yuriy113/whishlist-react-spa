@@ -14,6 +14,7 @@ interface WishListsFormProps {
     handleItemDescriptionChange: (index: number, value: string) => void;
     onRemoveButtonClick?: (index: number) => void;
     onRemoveWishList?: () => void;
+    onShareWishList?: () => void;
 }
 
 const WishListsForm = (props: WishListsFormProps) => {
@@ -26,6 +27,7 @@ const WishListsForm = (props: WishListsFormProps) => {
         handleItemDescriptionChange,
         onRemoveButtonClick,
         onRemoveWishList,
+        onShareWishList,
     } = props;
 
     return (
@@ -81,6 +83,9 @@ const WishListsForm = (props: WishListsFormProps) => {
                         Удалить
                     </Button>
                 )}
+                <Button type="button" onClick={onShareWishList}>
+                    Поделиться
+                </Button>
             </div>
         </form>
     );

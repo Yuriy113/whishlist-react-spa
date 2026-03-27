@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { wishesApi } from "../../api/crud";
 import WishListsForm from "../../components/common/WishListsForm";
+import { useToast } from "../../components/ui/Toast";
 import type { Wish } from "../../types";
 import { ROUTES } from "../../utils/constants/routes";
 
@@ -11,6 +12,7 @@ const EditWishlist = () => {
     const [wishes, setWishes] = useState<Wish[]>([]);
     const { id: wishlistId } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
     useEffect(() => {
         const fetchWishlist = async () => {
@@ -53,13 +55,19 @@ const EditWishlist = () => {
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const response = await wishesApi.updateWishList(wishlistId || "", {
-            title,
-            wishes,
-        });
+        try {
+            const response = await wishesApi.updateWishList(wishlistId || "", {
+                title,
+                wishes,
+            });
 
-        setTitle(response.wishlist.title);
-        setWishes(response.wishlist.wishes);
+            showToast("Список сохранен", { variant: "success" });
+
+            setTitle(response.wishlist.title);
+            setWishes(response.wishlist.wishes);
+        } catch {
+            showToast("Не удалось сохранить список", { variant: "error" });
+        }
     };
 
     const handleRemoveWishList = async () => {
@@ -69,6 +77,23 @@ const EditWishlist = () => {
 
         await wishesApi.removeWishList(wishlistId);
         navigate(`${ROUTES.MY_WISHLISTS}`);
+    };
+
+    const handleShareWishList = async () => {
+        if (!navigator.canShare) {
+            const shareUrl = window.location.href;
+            await navigator.clipboard.writeText(shareUrl);
+            showToast("Ссылка на список скопирована в буфер обмена", {
+                variant: "success",
+            });
+            return;
+        }
+
+        navigator.share({
+            title: title,
+            text: "Мой вишлист",
+            url: `${window.location.origin}/wishlist/${wishlistId}`,
+        });
     };
 
     if (!wishlistId) {
@@ -85,6 +110,7 @@ const EditWishlist = () => {
             handleItemDescriptionChange={handleItemDescriptionChange}
             onRemoveButtonClick={handleRemoveButtonClick}
             onRemoveWishList={handleRemoveWishList}
+            onShareWishList={handleShareWishList}
         />
     );
 };
