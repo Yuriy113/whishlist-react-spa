@@ -14,6 +14,8 @@ const EditWishlist = () => {
     const navigate = useNavigate();
     const { showToast } = useToast();
 
+    const [canEdit, setCanEdit] = useState(false);
+
     useEffect(() => {
         const fetchWishlist = async () => {
             if (!wishlistId) {
@@ -23,6 +25,7 @@ const EditWishlist = () => {
             const data = await wishesApi.getOne(wishlistId);
             const wishlist = data.wishlist;
 
+            setCanEdit(wishlist.canEdit);
             setWishes(wishlist.wishes);
             setTitle(wishlist.title);
         };
@@ -111,6 +114,7 @@ const EditWishlist = () => {
             onRemoveButtonClick={handleRemoveButtonClick}
             onRemoveWishList={handleRemoveWishList}
             onShareWishList={handleShareWishList}
+            canEdit={canEdit}
         />
     );
 };

@@ -1,30 +1,44 @@
 import styles from "./input.module.css";
 
-interface InputProps {
-    type: string;
+type BaseProps = {
     name: string;
-    placeholder?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+    isDisabled?: boolean;
+};
+
+type InputVariantProps = BaseProps &
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, "disabled" | "name"> & {
+        variant?: "input";
+    };
+
+type TextareaVariantProps = BaseProps &
+    Omit<
+        React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+        "disabled" | "name"
+    > & {
+        variant: "textarea";
+    };
+
+export type InputProps = InputVariantProps | TextareaVariantProps;
 
 export const Input = (props: InputProps) => {
-    const {
-        type = "text",
-        name,
-        placeholder = "",
-        value = "",
-        onChange,
-    } = props;
+    if (props.variant === "textarea") {
+        const { isDisabled, ...textareaProps } = props;
+        return (
+            <textarea
+                className={styles.textarea}
+                disabled={isDisabled}
+                {...textareaProps}
+            />
+        );
+    }
 
+    const { isDisabled, ...inputProps } = props;
     return (
         <input
             className={styles.input}
-            type={type}
-            name={name}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
+            type={inputProps.type ?? "text"}
+            disabled={isDisabled}
+            {...inputProps}
         />
     );
 };

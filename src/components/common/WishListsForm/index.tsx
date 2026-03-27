@@ -15,6 +15,7 @@ interface WishListsFormProps {
     onRemoveButtonClick?: (index: number) => void;
     onRemoveWishList?: () => void;
     onShareWishList?: () => void;
+    canEdit?: boolean;
 }
 
 const WishListsForm = (props: WishListsFormProps) => {
@@ -28,6 +29,7 @@ const WishListsForm = (props: WishListsFormProps) => {
         onRemoveButtonClick,
         onRemoveWishList,
         onShareWishList,
+        canEdit,
     } = props;
 
     return (
@@ -38,19 +40,22 @@ const WishListsForm = (props: WishListsFormProps) => {
                 placeholder="Название"
                 value={title}
                 onChange={onChangeTitle}
+                isDisabled={!canEdit}
             />
 
-            <div className={styles.container}>
-                <div className={styles.addBtnContainer}>
-                    <Button
-                        onClick={handleAddButtonClick}
-                        className={styles.addBtn}
-                    >
-                        +
-                    </Button>
+            {canEdit && (
+                <div className={styles.container}>
+                    <div className={styles.addBtnContainer}>
+                        <Button
+                            onClick={handleAddButtonClick}
+                            className={styles.addBtn}
+                        >
+                            +
+                        </Button>
+                    </div>
+                    Добавить элемент
                 </div>
-                Добавить элемент
-            </div>
+            )}
 
             {wishes.map((item, index) => (
                 <div
@@ -59,34 +64,51 @@ const WishListsForm = (props: WishListsFormProps) => {
                     })}
                     key={index}
                 >
-                    <Input
-                        name={`item-${index}`}
-                        type="text"
-                        placeholder="Описание"
-                        value={item.description}
-                        onChange={(e) =>
-                            handleItemDescriptionChange(index, e.target.value)
-                        }
-                    />
-                    <div style={{ width: "90px" }}>
-                        <Button onClick={() => onRemoveButtonClick?.(index)}>
-                            Удалить
-                        </Button>
-                    </div>
+                    {canEdit ? (
+                        <Input
+                            name={`item-${index}`}
+                            placeholder="Описание"
+                            value={item.description}
+                            onChange={(e) =>
+                                handleItemDescriptionChange(
+                                    index,
+                                    e.target.value,
+                                )
+                            }
+                            isDisabled={!canEdit}
+                            variant="textarea"
+                            rows={3}
+                        />
+                    ) : (
+                        <div className={styles.descriptionText}>
+                            {item.description}
+                        </div>
+                    )}
+                    {canEdit && (
+                        <div style={{ width: "90px" }}>
+                            <Button
+                                onClick={() => onRemoveButtonClick?.(index)}
+                            >
+                                Удалить
+                            </Button>
+                        </div>
+                    )}
                 </div>
             ))}
 
-            <div className={styles.saveBtnContainer}>
-                <Button type="submit">Сохранить</Button>
-                {onRemoveWishList && (
-                    <Button type="button" onClick={onRemoveWishList}>
-                        Удалить
+            {canEdit && (
+                <div className={styles.saveBtnContainer}>
+                    <Button type="submit">Сохранить</Button>
+                    {onRemoveWishList && (
+                        <Button type="button" onClick={onRemoveWishList}>
+                            Удалить
+                        </Button>
+                    )}
+                    <Button type="button" onClick={onShareWishList}>
+                        Поделиться
                     </Button>
-                )}
-                <Button type="button" onClick={onShareWishList}>
-                    Поделиться
-                </Button>
-            </div>
+                </div>
+            )}
         </form>
     );
 };
